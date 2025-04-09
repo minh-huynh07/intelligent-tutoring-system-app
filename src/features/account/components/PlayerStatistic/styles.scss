@@ -1,0 +1,14 @@
+.player-statistics {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding: 20px;
+
+  border: 1px solid #D9D9D9;
+
+  .player-statistics__stat-section {
+    border-collapse: collapse;
+    width: 40%;
+  }
+}

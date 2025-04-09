@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
-import AuthenticationPage from '@/pages/AuthenticationPage'
+
 import MainLayout from '@/layouts/MainLayout'
+import { AuthenticationPage, AccountPage } from '@/pages'
 
 export default function AppRouter() {
   return (
@@ -8,6 +9,7 @@ export default function AppRouter() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path='/authentication' element={<AuthenticationPage />} />
+          <Route path='/my-account' element={<AccountPage />} />
           {/* <Route path='/account' element={<AccountPage />} /> */}
           {/* <Route path='/admin/videos' element={<AdminVideosPage />} /> */}
           {/* <Route path='/videos' element={<VideosPage />} /> */}
