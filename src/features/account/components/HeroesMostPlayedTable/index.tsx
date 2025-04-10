@@ -32,22 +32,16 @@ type Hero = {
   lane: Lane[]
 }
 
-const data: Hero[] = [
-  {
-    hero: 'Oracle',
-    heroImg:
-      'https://images.unsplash.com/photo-1655824251467-d25618d53767?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    lastPlayed: '2025-04-09T05:00:00.000Z',
-    matches: 768,
-    winPercentage: '55.60%',
-    kda: 3.47,
-    role: [{ roleName: 'Support', rolePercent: 100 }],
-    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }]
-  }
-  // ... Add the rest of the data entries here
-]
+type HeroesMostPlayProps = {
+  data: Hero[]
+}
 
-const HeroesMostPlayedTable: React.FC = () => {
+const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
+  const { data } = props
+
+  const maxPlayedMatches: number = _.maxBy(data, 'matches', null)?.matches
+  const maxKDA: number = _.maxBy(data, 'kda')?.kda
+
   const columns = useMemo<ColumnsType<Hero>>(
     () => [
       {
@@ -71,7 +65,7 @@ const HeroesMostPlayedTable: React.FC = () => {
         render: (value) => (
           <div>
             <div>{value}</div>
-            <Progress percent={(value / 768) * 100} showInfo={false} strokeColor='red' size='small' />
+            <Progress percent={(value / maxPlayedMatches) * 100} showInfo={false} strokeColor='red' size='small' />
           </div>
         )
       },
@@ -80,7 +74,7 @@ const HeroesMostPlayedTable: React.FC = () => {
         dataIndex: 'winPercentage',
         key: 'winPercentage',
         render: (value) => (
-          <div style={{ color: 'lightgreen' }}>
+          <div>
             {value}
             <Progress percent={parseFloat(value)} showInfo={false} strokeColor='green' size='small' />
           </div>
@@ -93,7 +87,7 @@ const HeroesMostPlayedTable: React.FC = () => {
         render: (value) => (
           <div>
             {value}
-            <Progress percent={(value / 5.2) * 100} showInfo={false} strokeColor='orange' size='small' />
+            <Progress percent={(value / maxKDA) * 100} showInfo={false} strokeColor='orange' size='small' />
           </div>
         )
       },
@@ -111,11 +105,6 @@ const HeroesMostPlayedTable: React.FC = () => {
             <div>
               {mostPlayedRole.roleName}
               <MultiSegmentProgress percentages={percentages} />
-              {/* {lanes.map((lane, i) => ( */}
-              {/*   <Tag key={i} color='cyan'> */}
-              {/*     {lane.laneName} */}
-              {/*   </Tag> */}
-              {/* ))} */}
             </div>
           )
         }
@@ -134,11 +123,6 @@ const HeroesMostPlayedTable: React.FC = () => {
             <div>
               {mostPlayedLane.laneName}
               <MultiSegmentProgress percentages={percentages} />
-              {/* {lanes.map((lane, i) => ( */}
-              {/*   <Tag key={i} color='cyan'> */}
-              {/*     {lane.laneName} */}
-              {/*   </Tag> */}
-              {/* ))} */}
             </div>
           )
         }
@@ -147,16 +131,7 @@ const HeroesMostPlayedTable: React.FC = () => {
     []
   )
 
-  return (
-    <Table
-      dataSource={data}
-      columns={columns}
-      pagination={false}
-      rowKey='hero'
-      bordered
-      style={{ backgroundColor: '#1e1e2f', color: '#fff' }}
-    />
-  )
+  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered />
 }
 
 export default HeroesMostPlayedTable

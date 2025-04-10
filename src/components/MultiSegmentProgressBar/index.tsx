@@ -3,7 +3,7 @@ import './styles.scss'
 
 type PercentSegment = {
   percent: number
-  color: 'string'
+  color: string
 }
 
 type MultiSegmentProgressProps = {
@@ -14,12 +14,12 @@ const MultiSegmentProgress: React.FC<MultiSegmentProgressProps> = (props) => {
   const { percentages } = props
   return (
     <div className='multi-segment-progress'>
-      {percentages.map((role) => (
+      {percentages.map((p, index) => (
         <div
-          key={role.name}
+          key={index}
           style={{
-            width: `${role.percent}%`,
-            backgroundColor: role.color
+            width: `${p.percent}%`,
+            backgroundColor: p.color
           }}
           className='multi-segment-progress__percent'
         ></div>

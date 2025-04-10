@@ -4,6 +4,6 @@ export const HERO_ROLES = {
 }
 
 export const HERO_ROLES_COLORS = {
-  SUPPORT: '#ffda6e',
-  CORE: '#ff6666'
+  [HERO_ROLES.SUPPORT]: '#ffda6e',
+  [HERO_ROLES.CORE]: '#ff6666'
 }

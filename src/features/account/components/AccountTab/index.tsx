@@ -3,12 +3,12 @@ import React from 'react'
 import './styles.scss'
 
 const accountTabs = [
-  { name: 'Profile', path: 'profile' },
-  { name: 'Stats', path: 'stats' },
-  { name: 'Account', path: 'account' },
-  { name: 'Payment Methods', path: 'payment' },
-  { name: 'Notifications', path: 'notification' },
-  { name: 'Privacy', path: 'privacy' }
+  { name: 'Profile', path: '/my-account/profile' },
+  { name: 'Stats', path: '/my-account/stats' },
+  { name: 'Account', path: '/my-account/account' },
+  { name: 'Payment Methods', path: '/my-account/payment' },
+  { name: 'Notifications', path: '/my-account/notification' },
+  { name: 'Privacy', path: '/my-account/privacy' }
 ]
 
 type AccountTabProps = {
