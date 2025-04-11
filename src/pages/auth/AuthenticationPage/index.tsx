@@ -1,9 +1,10 @@
-import NavBar from '@/components/NavBar'
 import LoginModal from '@/features/auth/components/LoginModal'
+
+import './styles.scss'
 
 const AuthenticationPage = () => {
   return (
-    <div>
+    <div className='authentication-page'>
       <LoginModal />
     </div>
   )

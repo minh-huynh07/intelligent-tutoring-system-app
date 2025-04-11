@@ -2,6 +2,7 @@ import { FaShoppingCart, FaBell, FaSearch } from 'react-icons/fa'
 
 import AppLogo from '@/assets/Logo.png'
 import './styles.scss'
+import { Avatar } from 'antd'
 
 export default function NavBar() {
   return (
@@ -24,7 +25,7 @@ export default function NavBar() {
         <span className='navbar__link'>Become Instructor</span>
         <FaShoppingCart className='navbar__icon' />
         <FaBell className='navbar__icon' />
-        <img src='' alt='User Avatar' className='navbar__avatar' />
+        <Avatar />
       </div>
     </nav>
   )

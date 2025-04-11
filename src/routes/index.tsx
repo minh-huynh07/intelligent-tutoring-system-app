@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
 
 import MainLayout from '@/layouts/MainLayout'
-import { AuthenticationPage, AccountPage, AccountStatPage, CourseWatchPage } from '@/pages'
+import { AuthenticationPage, AccountPage, AccountStatPage, CourseWatchPage, AdminCoursePage } from '@/pages'
 
 export default function AppRouter() {
   return (
@@ -12,12 +12,10 @@ export default function AppRouter() {
           <Route path='/my-account' element={<AccountPage />}>
             <Route path='stats' element={<AccountStatPage />} />
           </Route>
-
           <Route path='/courses/watch' element={<CourseWatchPage />} />
-
-          {/* <Route path='/account' element={<AccountPage />} /> */}
-          {/* <Route path='/admin/videos' element={<AdminVideosPage />} /> */}
-          {/* <Route path='/videos' element={<VideosPage />} /> */}
+          <Route path='/admin'>
+            <Route path='courses' element={<AdminCoursePage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
