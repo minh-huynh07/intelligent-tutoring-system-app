@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react'
+
 import PlayerStatistic from '@/features/account/components/PlayerStatistic'
 import HeroesMostPlayedTable from '@/features/account/components/HeroesMostPlayedTable'
 import LatestMatchesTable from '@/features/account/components/LatestMatchesTable'
-
+import { Hero, Match, PlayerStats } from '@/types'
 import './styles.scss'
 
-const statistic = {
+const statistic: PlayerStats = {
   winrate: '50%',
   kills: 'Text',
   deaths: '9 / 16',
@@ -18,7 +20,7 @@ const statistic = {
   currentRank: 'Cursader'
 }
 
-const mostPlayedHeroesData = [
+const mostPlayedHeroesData: Hero[] = [
   {
     hero: 'Oracle',
     heroImg:
@@ -28,7 +30,17 @@ const mostPlayedHeroesData = [
     winPercentage: '55.60%',
     kda: 3.47,
     role: [{ roleName: 'Support', rolePercent: 100 }],
-    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }]
+    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }],
+    recommendedHeroes: [
+      {
+        name: 'Pangolier',
+        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png'
+      },
+      {
+        name: 'Omniknight',
+        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png'
+      }
+    ]
   },
   {
     hero: 'Asd',
@@ -39,7 +51,13 @@ const mostPlayedHeroesData = [
     winPercentage: '55.60%',
     kda: 1.2,
     role: [{ roleName: 'Support', rolePercent: 100 }],
-    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }]
+    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }],
+    recommendedHeroes: [
+      {
+        name: 'Phoenix',
+        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/phoenix.png'
+      }
+    ]
   }
 ]
 
@@ -113,11 +131,34 @@ const latestMatchesData = [
 ]
 
 const AccountStatPage = () => {
+  const [statsData, setStatsData] = useState<PlayerStats | null>(null)
+  const [loadingStatsData, setLoadingStatsData] = useState<boolean>(true)
+  const [mostPlayedHeroes, setMostPlayedHeroes] = useState<Hero[]>([])
+  const [loadingMostPlayedHeroes, setLoadingMostPlayedHeroes] = useState<boolean>(true)
+  const [latestMatches, setLatestMatches] = useState<Match[]>([])
+  const [loadingLatestMatches, setLoadingLatestMatches] = useState<boolean>(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setTimeout(() => {
+        setStatsData(statistic)
+        setLoadingStatsData(false)
+
+        setMostPlayedHeroes(mostPlayedHeroesData)
+        setLoadingMostPlayedHeroes(false)
+
+        setLatestMatches(latestMatchesData)
+        setLoadingLatestMatches(false)
+      }, 3000)
+    }
+    fetchData()
+  })
+
   return (
     <div className='account-stat-page'>
-      <PlayerStatistic playerStats={statistic} />
-      <HeroesMostPlayedTable data={mostPlayedHeroesData} />
-      <LatestMatchesTable data={latestMatchesData} />
+      <PlayerStatistic playerStats={statsData} loading={loadingStatsData} />
+      <HeroesMostPlayedTable data={mostPlayedHeroes} loading={loadingMostPlayedHeroes} />
+      <LatestMatchesTable data={latestMatches} loading={loadingLatestMatches} />
     </div>
   )
 }

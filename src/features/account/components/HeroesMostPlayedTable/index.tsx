@@ -1,43 +1,21 @@
 import React, { useMemo } from 'react'
-import { Table, Tag, Avatar, Progress } from 'antd'
+import { Table, Avatar, Progress, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import _ from 'lodash'
 
 import './styles.scss'
 import MultiSegmentProgress from '@/components/MultiSegmentProgressBar'
 import { HERO_ROLES_COLORS } from '@/const'
-
-dayjs.extend(relativeTime)
-
-type Role = {
-  roleName: string
-  rolePercent: number
-}
-
-type Lane = {
-  laneName: string
-  lanePercent: number
-}
-
-type Hero = {
-  hero: string
-  heroImg: string
-  lastPlayed: string
-  matches: number
-  winPercentage: string
-  kda: number
-  role: Role[]
-  lane: Lane[]
-}
+import { Hero } from '@/types'
 
 type HeroesMostPlayProps = {
   data: Hero[]
+  loading: boolean
 }
 
 const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
-  const { data } = props
+  const { data, loading = false } = props
 
   const maxPlayedMatches: number = _.maxBy(data, 'matches', null)?.matches
   const maxKDA: number = _.maxBy(data, 'kda')?.kda
@@ -57,6 +35,17 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
             </div>
           </div>
         )
+      },
+      {
+        title: 'Recommended Heroes',
+        dataIndex: 'recommendedHeroes',
+        key: 'recommendedHeroes',
+        render: (rheroes: RecommendedHero[]) =>
+          rheroes.map((h) => (
+            <Tooltip title={h.name}>
+              <Avatar src={h.img} shape='circle' />
+            </Tooltip>
+          ))
       },
       {
         title: 'Matches',
@@ -131,7 +120,7 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
     []
   )
 
-  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered />
+  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered loading={loading}/>
 }
 
 export default HeroesMostPlayedTable

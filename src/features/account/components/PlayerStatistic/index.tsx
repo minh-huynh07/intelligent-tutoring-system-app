@@ -1,21 +1,12 @@
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+import { PlayerStats } from '@/types'
 import './styles.scss'
 
-type PlayerStats = {
-  winrate: string
-  kills: string
-  deaths: string
-  assists: string
-  goldPerMin: string
-  xpPerMin: string
-  heroDamage: string
-  heroHealing: string
-  towerDamage: string
-  duration: string
-  currentRank: string
-}
-
 type PlayerStatisticProps = {
-  playerStats: PlayerStats
+  playerStats: PlayerStats | null
+  loading: boolean
 }
 
 const labelMap: Record<keyof PlayerStats, string> = {
@@ -32,73 +23,70 @@ const labelMap: Record<keyof PlayerStats, string> = {
   currentRank: 'Current Rank'
 }
 
+const defaultPlayerStats: PlayerStats = {
+  winrate: '',
+  kills: '',
+  deaths: '',
+  assists: '',
+  goldPerMin: '',
+  xpPerMin: '',
+  heroDamage: '',
+  heroHealing: '',
+  towerDamage: '',
+  duration: '',
+  currentRank: ''
+}
+
 const PlayerStatistic: React.FC<PlayerStatisticProps> = (props) => {
-  const { playerStats } = props
+  const { playerStats, loading = false } = props
+  const stats = playerStats || defaultPlayerStats
   return (
     <div className='player-statistics'>
       <table className='player-statistics__stat-section'>
         <tbody>
-          <tr key='winrate' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['winrate']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['winrate']}</td>
-          </tr>
+          <StatItem label={labelMap['winrate']} value={stats['winrate']} loading={loading} />
 
-          <tr key='kills' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['kills']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['kills']}</td>
-          </tr>
+          <StatItem label={labelMap['kills']} value={stats['kills']} loading={loading} />
 
-          <tr key='deaths' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['deaths']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['deaths']}</td>
-          </tr>
+          <StatItem label={labelMap['deaths']} value={stats['deaths']} loading={loading} />
 
-          <tr key='assists' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['assists']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['assists']}</td>
-          </tr>
+          <StatItem label={labelMap['assists']} value={stats['assists']} loading={loading} />
 
-          <tr key='goldPerMin' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['goldPerMin']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['goldPerMin']}</td>
-          </tr>
+          <StatItem label={labelMap['goldPerMin']} value={stats['goldPerMin']} loading={loading} />
 
-          <tr key='xpPerMin' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['xpPerMin']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['xpPerMin']}</td>
-          </tr>
+          <StatItem label={labelMap['xpPerMin']} value={stats['xpPerMin']} loading={loading} />
         </tbody>
       </table>
 
       <table className='player-statistics__stat-section'>
         <tbody>
-          <tr key='heroDamage' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['heroDamage']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['heroDamage']}</td>
-          </tr>
+          <StatItem label={labelMap['heroDamage']} value={stats['heroDamage']} loading={loading} />
 
-          <tr key='heroHealing' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['heroHealing']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['heroHealing']}</td>
-          </tr>
+          <StatItem label={labelMap['heroHealing']} value={stats['heroHealing']} loading={loading} />
 
-          <tr key='towerDamage' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['towerDamage']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['towerDamage']}</td>
-          </tr>
+          <StatItem label={labelMap['towerDamage']} value={stats['towerDamage']} loading={loading} />
 
-          <tr key='duration' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['duration']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['duration']}</td>
-          </tr>
+          <StatItem label={labelMap['duration']} value={stats['duration']} loading={loading} />
 
-          <tr key='currentRank' className='player-statistic__stat-item'>
-            <td className='player-statistics__stat-item-label'>{labelMap['currentRank']}:</td>
-            <td className='player-statistics__stat-item-value'>{playerStats['currentRank']}</td>
-          </tr>
+          <StatItem label={labelMap['currentRank']} value={stats['currentRank']} loading={loading} />
         </tbody>
       </table>
     </div>
+  )
+}
+
+type StatItemProps = {
+  label: string
+  value: string
+  loading: boolean
+}
+const StatItem: React.FC<StatItemProps> = (props) => {
+  const { label, value, loading } = props
+  return (
+    <tr key='currentRank' className='player-statistic__stat-item'>
+      <td className='player-statistics__stat-item-label'>{label}:</td>
+      <td className='player-statistics__stat-item-value'>{loading ? <Skeleton width={240} /> : value}</td>
+    </tr>
   )
 }
 

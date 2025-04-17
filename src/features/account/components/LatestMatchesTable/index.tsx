@@ -1,40 +1,25 @@
 import React, { useMemo } from 'react'
-import { Table, Tag, Avatar, Progress } from 'antd'
+import { Table, Avatar, Progress } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 
 import './styles.scss'
 import MultiSegmentProgress from '@/components/MultiSegmentProgressBar'
-import { HERO_ROLES_COLORS } from '@/const'
+import { Match } from '@/types'
 
 const matchResultText = {
   WON: 'Won Match',
   LOST: 'Lost Match'
 }
 
-type Match = {
-  hero: string
-  heroImg: string
-  rank: string
-  result: number // 1 for won match and -1 for lost match
-  playedTime: string
-  type: string
-  mode: string
-  kda: {
-    kills: number
-    deaths: number
-    assists: number
-  }
-  durationSeconds: number
-}
-
 type LatestMatchesTableProps = {
   data: Match[]
+  loading: boolean
 }
 
 const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
-  const { data } = props
+  const { data, loading = false } = props
 
   const maxDurationSeconds: number = _.maxBy(data, 'durationSeconds', null)?.durationSeconds
 
@@ -134,7 +119,7 @@ const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
     []
   )
 
-  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered />
+  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered loading={loading} />
 }
 
 export default LatestMatchesTable
