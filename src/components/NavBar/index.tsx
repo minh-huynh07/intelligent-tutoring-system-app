@@ -37,7 +37,7 @@ export default function NavBar() {
     <nav className='navbar'>
       {/* Left */}
       <div className='navbar__left'>
-        <div className='navbar__logo'>
+        <div className='navbar__logo' onClick={() => navigate('/')}>
           <img src={AppLogo} alt='App Logo' />
         </div>
       </div>

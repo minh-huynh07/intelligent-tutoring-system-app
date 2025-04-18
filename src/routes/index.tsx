@@ -6,9 +6,10 @@ import {
   AccountStatPage,
   CourseWatchPage,
   AdminCoursePage,
-  LoginSuccessPage,
+  LoginSuccessPage
 } from '@/pages';
 import AdminLecturePage from '@/pages/admin/AdminLecturePage';
+import HomePage from '@/pages/home/HomePage';
 
 export default function AppRouter() {
   return (
@@ -16,7 +17,7 @@ export default function AppRouter() {
       <Routes>
         <Route element={<MainLayout />}>
           {/* index route (= "/" ) */}
-          <Route index element={<AuthenticationPage />} />
+          <Route index element={<HomePage />} />
 
           {/* các route còn lại */}
           <Route path='authentication' element={<AuthenticationPage />} />
