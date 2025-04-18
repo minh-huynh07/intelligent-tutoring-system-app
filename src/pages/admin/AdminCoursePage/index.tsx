@@ -1,9 +1,9 @@
-import CreateLectureForm from '@/features/admin/components/CreateLectureForm'
+import CreateCourseForm from '@/features/admin/components/CreateCourseForm'
 
 const AdminCoursePage = () => {
   return (
     <div className='admin-course-page'>
-      <CreateLectureForm />
+      <CreateCourseForm />
     </div>
   )
 }

@@ -1,28 +1,26 @@
 import React from 'react'
 import { Form, Input, Button, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { RcFile } from 'antd/es/upload'
-
 import './styles.scss'
+import { RcFile } from 'antd/es/upload'
 
 interface CreateLectureFormState {
   title: string
-  chapter?: string
-  heroes?: string
+  courseID: string
   video?: RcFile | null
-  materials?: RcFile | null
 }
 
 const CreateLectureForm: React.FC = () => {
   const [form] = Form.useForm<CreateLectureFormState>()
 
   const handleFinish = (data: any) => {
+    console.log(data)
     // TODO: Handle submit creating lecture
   }
 
   return (
     <div className='create-lecture-form'>
-      <h2 className='create-lecture-form__title'>Create Lecture</h2>
+      <h2 className='create-lecture-form__title'>Create lecture</h2>
       <Form
         form={form}
         name='basic'
@@ -42,11 +40,11 @@ const CreateLectureForm: React.FC = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item label='Chapter' name='chapter' rules={[]}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item label='Target Heroes' name='heroes' rules={[]}>
+        <Form.Item
+          label='Course ID'
+          name='courseID'
+          rules={[{ required: true, message: 'Please input your course ID!' }]}
+        >
           <Input />
         </Form.Item>
 
@@ -65,29 +63,6 @@ const CreateLectureForm: React.FC = () => {
             }}
             listType='picture-card'
             accept='video/*'
-          >
-            <button style={{ color: 'inherit', cursor: 'inherit', border: 0, background: 'none' }} type='button'>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </button>
-          </Upload>
-        </Form.Item>
-
-        <Form.Item
-          name='material'
-          label='Material'
-          valuePropName='material-file'
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
-        >
-          <Upload
-            beforeUpload={() => false} // prevent auto upload
-            // customRequest={({ onSuccess }) => {
-            //   setTimeout(() => {
-            //     onSuccess?.('ok')
-            //   }, 0)
-            // }}
-            listType='picture-card'
-            accept='image/*'
           >
             <button style={{ color: 'inherit', cursor: 'inherit', border: 0, background: 'none' }} type='button'>
               <PlusOutlined />

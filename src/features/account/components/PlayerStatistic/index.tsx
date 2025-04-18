@@ -1,13 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-import { PlayerStats } from '@/types'
+import { PlayerStatisticProps, PlayerStats } from '@/types'
 import './styles.scss'
-
-type PlayerStatisticProps = {
-  playerStats: PlayerStats | null
-  loading: boolean
-}
 
 const labelMap: Record<keyof PlayerStats, string> = {
   winrate: 'Winrate',
@@ -38,37 +32,37 @@ const defaultPlayerStats: PlayerStats = {
 }
 
 const PlayerStatistic: React.FC<PlayerStatisticProps> = (props) => {
-  const { playerStats, loading = false } = props
+  const { playerStats } = props
   const stats = playerStats || defaultPlayerStats
   return (
     <div className='player-statistics'>
       <table className='player-statistics__stat-section'>
         <tbody>
-          <StatItem label={labelMap['winrate']} value={stats['winrate']} loading={loading} />
+          <StatItem label={labelMap['winrate']} value={stats['winrate']}  />
 
-          <StatItem label={labelMap['kills']} value={stats['kills']} loading={loading} />
+          <StatItem label={labelMap['kills']} value={stats['kills']}  />
 
-          <StatItem label={labelMap['deaths']} value={stats['deaths']} loading={loading} />
+          <StatItem label={labelMap['deaths']} value={stats['deaths']}  />
 
-          <StatItem label={labelMap['assists']} value={stats['assists']} loading={loading} />
+          <StatItem label={labelMap['assists']} value={stats['assists']}  />
 
-          <StatItem label={labelMap['goldPerMin']} value={stats['goldPerMin']} loading={loading} />
+          <StatItem label={labelMap['goldPerMin']} value={stats['goldPerMin']}  />
 
-          <StatItem label={labelMap['xpPerMin']} value={stats['xpPerMin']} loading={loading} />
+          <StatItem label={labelMap['xpPerMin']} value={stats['xpPerMin']}  />
         </tbody>
       </table>
 
       <table className='player-statistics__stat-section'>
         <tbody>
-          <StatItem label={labelMap['heroDamage']} value={stats['heroDamage']} loading={loading} />
+          <StatItem label={labelMap['heroDamage']} value={stats['heroDamage']}  />
 
-          <StatItem label={labelMap['heroHealing']} value={stats['heroHealing']} loading={loading} />
+          <StatItem label={labelMap['heroHealing']} value={stats['heroHealing']}  />
 
-          <StatItem label={labelMap['towerDamage']} value={stats['towerDamage']} loading={loading} />
+          <StatItem label={labelMap['towerDamage']} value={stats['towerDamage']}  />
 
-          <StatItem label={labelMap['duration']} value={stats['duration']} loading={loading} />
+          <StatItem label={labelMap['duration']} value={stats['duration']}  />
 
-          <StatItem label={labelMap['currentRank']} value={stats['currentRank']} loading={loading} />
+          <StatItem label={labelMap['currentRank']} value={stats['currentRank']}  />
         </tbody>
       </table>
     </div>
@@ -78,7 +72,7 @@ const PlayerStatistic: React.FC<PlayerStatisticProps> = (props) => {
 type StatItemProps = {
   label: string
   value: string
-  loading: boolean
+  loading?: boolean
 }
 const StatItem: React.FC<StatItemProps> = (props) => {
   const { label, value, loading } = props

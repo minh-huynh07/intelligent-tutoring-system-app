@@ -1,165 +1,219 @@
-import { useEffect, useState } from 'react'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import PlayerStatistic from '@/features/account/components/PlayerStatistic'
 import HeroesMostPlayedTable from '@/features/account/components/HeroesMostPlayedTable'
 import LatestMatchesTable from '@/features/account/components/LatestMatchesTable'
-import { Hero, Match, PlayerStats } from '@/types'
+import { useEffect, useState } from 'react'
+import { Spin } from 'antd'
 import './styles.scss'
+import { useUser } from '@/contexts/UserContext'
+import { Hero, PlayerStats } from '@/types'
+import { sumBy } from 'lodash'
 
-const statistic: PlayerStats = {
-  winrate: '50%',
-  kills: 'Text',
-  deaths: '9 / 16',
-  assists: '19 / 37',
-  goldPerMin: '333 / 411',
-  xpPerMin: '512 / 683',
-  heroDamage: '9.9K / 13.9K',
-  heroHealing: 'Text',
-  towerDamage: '171 / 636',
-  duration: '35:08 / 47:05',
-  currentRank: 'Cursader'
+const defaultStats: PlayerStats = {
+  winrate: '0%',
+  kills: '0 / 0',
+  deaths: '0 / 0',
+  assists: '0 / 0',
+  goldPerMin: '0 / 0',
+  xpPerMin: '0 / 0',
+  heroDamage: '0 / 0',
+  heroHealing: '0 / 0',
+  towerDamage: '0 / 0',
+  duration: '0:00 / 0:00',
+  currentRank: 'Unranked'
 }
 
-const mostPlayedHeroesData: Hero[] = [
-  {
-    hero: 'Oracle',
-    heroImg:
-      'https://images.unsplash.com/photo-1655824251467-d25618d53767?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    lastPlayed: '2025-04-09T05:00:00.000Z',
-    matches: 768,
-    winPercentage: '55.60%',
-    kda: 3.47,
-    role: [{ roleName: 'Support', rolePercent: 100 }],
-    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }],
-    recommendedHeroes: [
-      {
-        name: 'Pangolier',
-        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png'
-      },
-      {
-        name: 'Omniknight',
-        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png'
-      }
-    ]
-  },
-  {
-    hero: 'Asd',
-    heroImg:
-      'https://images.unsplash.com/photo-1655824251467-d25618d53767?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    lastPlayed: '2025-04-09T05:00:00.000Z',
-    matches: 100,
-    winPercentage: '55.60%',
-    kda: 1.2,
-    role: [{ roleName: 'Support', rolePercent: 100 }],
-    lane: [{ laneName: 'Safe Lane', lanePercent: 100 }],
-    recommendedHeroes: [
-      {
-        name: 'Phoenix',
-        img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/phoenix.png'
-      }
-    ]
-  }
-]
+type TotalStat = {
+  field: string
+  n: number
+  sum: number
+  avg: number
+}
 
-const latestMatchesData = [
-  {
-    hero: 'Oracle',
-    heroImg: '',
-    rank: 'Ancient V',
-    result: 1,
-    playedTime: '2025-04-10T05:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 7, deaths: 11, assists: 18 },
-    durationSeconds: 2908
-  },
-  {
-    hero: 'Oracle',
-    heroImg: '',
-    rank: 'Ancient I',
-    result: -1,
-    playedTime: '2025-04-09T16:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 1, deaths: 12, assists: 8 },
-    durationSeconds: 1792
-  },
-  {
-    hero: 'Oracle',
-    heroImg: '',
-    rank: 'Ancient V',
-    result: 1,
-    playedTime: '2025-04-08T10:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 8, deaths: 2, assists: 3 },
-    durationSeconds: 1799
-  },
-  {
-    hero: 'Oracle',
-    heroImg: '',
-    rank: 'Ancient I',
-    result: -1,
-    playedTime: '2025-04-07T06:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 6, deaths: 12, assists: 26 },
-    durationSeconds: 4186
-  },
-  {
-    hero: 'Disruptor',
-    heroImg: '',
-    rank: 'Legend V',
-    result: -1,
-    playedTime: '2025-03-10T14:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 2, deaths: 11, assists: 16 },
-    durationSeconds: 2257
-  },
-  {
-    hero: 'Disruptor',
-    heroImg: '',
-    rank: 'Divine I',
-    result: 1,
-    playedTime: '2025-03-08T10:00:00.000Z',
-    type: 'Normal',
-    mode: 'All Pick',
-    kda: { kills: 5, deaths: 4, assists: 14 },
-    durationSeconds: 1750
-  }
-]
+const LOBBY_TYPE_MAP: Record<number, string> = {
+  0: 'Normal',
+  1: 'Practice',
+  2: 'Tournament',
+  3: 'Tutorial',
+  4: 'Co-op Bots',
+  5: 'Ranked Team',
+  6: 'Ranked Solo',
+  7: 'Ranked',
+  8: '1v1 Mid',
+  9: 'Battle Cup'
+}
+
+const GAME_MODE_MAP: Record<number, string> = {
+  1: 'All Pick',
+  2: 'Captains Mode',
+  3: 'Random Draft',
+  4: 'Single Draft',
+  5: 'All Random',
+  12: 'Least Played',
+  13: 'Limited Heroes',
+  16: 'Captains Draft',
+  18: 'Ability Draft',
+  22: 'All Draft',
+  23: 'Turbo',
+  24: 'Mutation'
+}
+
+function computeKda(hero: any, latestMatchesData: any[]) {
+  if (!latestMatchesData.length) return 0
+  const heroMatches = latestMatchesData.filter((s: any) => s.hero_id === hero.hero_id)
+  const killSums = sumBy(heroMatches, 'kills')
+  const deathSums = sumBy(heroMatches, 'deaths')
+  const assistSums = sumBy(heroMatches, 'assists')
+
+  const kda = deathSums > 0 ? ((killSums + assistSums) / deathSums).toFixed(2) : '0.00'
+
+  return parseFloat(kda)
+}
+
+function mapRankTier(rankTier?: number): string {
+  if (!rankTier) return 'Unranked'
+  const tiers = ['Herald', 'Guardian', 'Crusader', 'Archon', 'Legend', 'Ancient', 'Divine', 'Immortal']
+  const tier = Math.floor(rankTier / 10)
+  const star = rankTier % 10
+  return `${tiers[tier - 1] || 'Unknown'} ${star || ''}`
+}
 
 const AccountStatPage = () => {
-  const [statsData, setStatsData] = useState<PlayerStats | null>(null)
-  const [loadingStatsData, setLoadingStatsData] = useState<boolean>(true)
+  const { user } = useUser()
+  const account_id = user?.profile?.account_id
+
+  const [playerStats, setPlayerStats] = useState<PlayerStats>(defaultStats)
   const [mostPlayedHeroes, setMostPlayedHeroes] = useState<Hero[]>([])
-  const [loadingMostPlayedHeroes, setLoadingMostPlayedHeroes] = useState<boolean>(true)
-  const [latestMatches, setLatestMatches] = useState<Match[]>([])
-  const [loadingLatestMatches, setLoadingLatestMatches] = useState<boolean>(true)
+  const [latestMatches, setLatestMatches] = useState<any[]>([])
+
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    if (!account_id) return
+
     const fetchData = async () => {
-      setTimeout(() => {
-        setStatsData(statistic)
-        setLoadingStatsData(false)
+      try {
+        setLoading(true)
 
-        setMostPlayedHeroes(mostPlayedHeroesData)
-        setLoadingMostPlayedHeroes(false)
+        const [totalsRes, matchesRes, heroesRes, wlRes, playerRes, heroStatsRes] = await Promise.all([
+          fetch(`https://api.opendota.com/api/players/${account_id}/totals`).then((res) => res.json()),
+          fetch(`https://api.opendota.com/api/players/${account_id}/matches?limit=10`).then((res) => res.json()),
+          fetch(`https://api.opendota.com/api/players/${account_id}/heroes`).then((res) => res.json()),
+          fetch(`https://api.opendota.com/api/players/${account_id}/wl`).then((res) => res.json()),
+          fetch(`https://api.opendota.com/api/players/${account_id}`).then((res) => res.json()),
+          fetch(`https://api.opendota.com/api/heroStats`).then((res) => res.json())
+        ])
 
-        setLatestMatches(latestMatchesData)
-        setLoadingLatestMatches(false)
-      }, 3000)
+        // Build hero map for name + image
+        const heroMap = new Map<
+          number,
+          { name: string; img: string; roles: string[]; laneRoles: Record<string, number> }
+        >()
+        for (const h of heroStatsRes) {
+          heroMap.set(h.id, {
+            name: h.localized_name,
+            img: `https://cdn.cloudflare.steamstatic.com${h.img}`,
+            roles: h.roles || []
+          })
+        }
+
+        // Helper to get stat
+        const getValue = (field: string) => {
+          const stat = totalsRes.find((s: TotalStat) => s.field === field)
+          return stat?.sum || 0
+        }
+
+        const avgDuration = Math.floor(
+          matchesRes.reduce((acc: number, match: any) => acc + (match.duration || 0), 0) / matchesRes.length
+        )
+        const formatDuration = (seconds: number) =>
+          `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`
+
+        // Player overview stats
+        const statObj = {
+          winrate: `${((wlRes.win / (wlRes.win + wlRes.lose)) * 100).toFixed(1)}%`,
+          kills: `${getValue('kills')} / ${getValue('kills')}`,
+          deaths: `${getValue('deaths')} / ${getValue('deaths')}`,
+          assists: `${getValue('assists')} / ${getValue('assists')}`,
+          goldPerMin: `${getValue('gold_per_min')} / ${getValue('gold_per_min')}`,
+          xpPerMin: `${getValue('xp_per_min')} / ${getValue('xp_per_min')}`,
+          heroDamage: `${(getValue('hero_damage') / 1000).toFixed(1)}K / ${(getValue('hero_damage') / 1000).toFixed(1)}K`,
+          heroHealing: `${getValue('hero_healing')} / ${getValue('hero_healing')}`,
+          towerDamage: `${getValue('tower_damage')} / ${getValue('tower_damage')}`,
+          duration: formatDuration(avgDuration),
+          currentRank: mapRankTier(playerRes.rank_tier)
+        }
+
+        setPlayerStats(statObj)
+
+        // Build top 5 most played heroes
+        const topHeroes = heroesRes
+          .filter((h: any) => h.games > 0)
+          .sort((a: any, b: any) => b.games - a.games)
+          .slice(0, 5)
+          .map((hero: any) => {
+            const meta = heroMap.get(hero.hero_id)
+
+            const roleData = (meta?.roles || []).map((roleName) => ({
+              roleName,
+              rolePercent: Math.floor(100 / meta.roles.length)
+            }))
+
+            return {
+              hero: meta?.name || `Hero ${hero.hero_id}`,
+              heroImg: meta?.img || '',
+              lastPlayed: new Date(hero.last_played * 1000).toISOString(),
+              matches: hero.games,
+              winPercentage: `${((hero.win / hero.games) * 100).toFixed(2)}%`,
+              kda: computeKda(hero, matchesRes),
+              role: roleData
+            }
+          })
+        setMostPlayedHeroes(topHeroes)
+
+        const latestMatches = matchesRes
+          .sort((a: any, b: any) => b.start_time - a.start_time)
+          .map((match: any) => {
+            const meta = heroMap.get(match.hero_id)
+            const isRadiant = match.player_slot < 128
+            const win = isRadiant === match.radiant_win
+
+            return {
+              hero: meta?.name || `Hero ${match.hero_id}`,
+              heroImg: meta?.img || '',
+              rank: mapRankTier(playerRes.rank_tier),
+              result: win ? 1 : -1, // 1 = win, -1 = lose
+              playedTime: new Date(match.start_time * 1000).toISOString(),
+              type: LOBBY_TYPE_MAP[match.lobby_type] || 'Unknown',
+              mode: GAME_MODE_MAP[match.game_mode] || 'Unknown',
+              kda: {
+                kills: match.kills,
+                deaths: match.deaths,
+                assists: match.assists
+              },
+              durationSeconds: match.duration
+            }
+          })
+
+        setLatestMatches(latestMatches)
+      } catch (err) {
+        console.error('❌ Error loading OpenDota data:', err)
+      } finally {
+        setLoading(false)
+      }
     }
+
     fetchData()
-  })
+  }, [account_id])
 
   return (
-    <div className='account-stat-page'>
-      <PlayerStatistic playerStats={statsData} loading={loadingStatsData} />
-      <HeroesMostPlayedTable data={mostPlayedHeroes} loading={loadingMostPlayedHeroes} />
-      <LatestMatchesTable data={latestMatches} loading={loadingLatestMatches} />
-    </div>
+    <Spin spinning={loading} tip='Loading player statistics...'>
+      <div className='account-stat-page'>
+        <PlayerStatistic playerStats={playerStats} />
+        <HeroesMostPlayedTable data={mostPlayedHeroes} />
+        <LatestMatchesTable data={latestMatches} />
+      </div>
+    </Spin>
   )
 }
 

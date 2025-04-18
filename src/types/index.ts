@@ -15,6 +15,31 @@ export type CourseLecture = {
   durationSec: number
 }
 
+export interface UserProfile {
+  account_id: number
+  personaname: string
+  name: string | null
+  plus: boolean
+  cheese: number
+  steamid: string
+  avatar: string
+  avatarmedium: string
+  avatarfull: string
+  profileurl: string
+  last_login: string
+  loccountrycode: string
+  status: number | null
+  fh_unavailable: boolean
+  is_contributor: boolean
+  is_subscriber: boolean
+}
+
+export interface UserInfo {
+  profile: UserProfile
+  rank_tier: number
+  leaderboard_rank: number | null
+}
+
 export type PlayerStats = {
   winrate: string
   kills: string
@@ -44,6 +69,10 @@ export type RecommendedHero = {
   img: string
 }
 
+export type PlayerStatisticProps = {
+  playerStats: PlayerStats,
+}
+
 export type Hero = {
   hero: string
   heroImg: string
@@ -70,4 +99,7 @@ export type Match = {
     assists: number
   }
   durationSeconds: number
+}
+export type HeroesMostPlayProps = {
+  data: Hero[]
 }

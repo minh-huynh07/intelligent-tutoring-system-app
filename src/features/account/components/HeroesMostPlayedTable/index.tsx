@@ -1,23 +1,21 @@
 import React, { useMemo } from 'react'
-import { Table, Avatar, Progress, Tooltip } from 'antd'
+import { Table, Tag, Avatar, Progress, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import _ from 'lodash'
-
+import relativeTime from 'dayjs/plugin/relativeTime'
 import './styles.scss'
 import MultiSegmentProgress from '@/components/MultiSegmentProgressBar'
 import { HERO_ROLES_COLORS } from '@/const'
-import { Hero } from '@/types'
+import { Hero, HeroesMostPlayProps, RecommendedHero } from '@/types'
 
-type HeroesMostPlayProps = {
-  data: Hero[]
-  loading: boolean
-}
+dayjs.extend(relativeTime)
 
 const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
   const { data, loading = false } = props
 
   const maxPlayedMatches: number = _.maxBy(data, 'matches', null)?.matches
+  console.log(maxPlayedMatches)
   const maxKDA: number = _.maxBy(data, 'kda')?.kda
 
   const columns = useMemo<ColumnsType<Hero>>(
@@ -36,17 +34,17 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
           </div>
         )
       },
-      {
-        title: 'Recommended Heroes',
-        dataIndex: 'recommendedHeroes',
-        key: 'recommendedHeroes',
-        render: (rheroes: RecommendedHero[]) =>
-          rheroes.map((h) => (
-            <Tooltip title={h.name}>
-              <Avatar src={h.img} shape='circle' />
-            </Tooltip>
-          ))
-      },
+      // {
+      //   title: 'Recommended Heroes',
+      //   dataIndex: 'recommendedHeroes',
+      //   key: 'recommendedHeroes',
+      //   render: (rheroes: RecommendedHero[]) =>
+      //     rheroes.map((h) => (
+      //       <Tooltip title={h.name}>
+      //         <Avatar src={h.img} shape='circle' />
+      //       </Tooltip>
+      //     ))
+      // },
       {
         title: 'Matches',
         dataIndex: 'matches',
@@ -70,7 +68,7 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
         )
       },
       {
-        title: 'KDA',
+        title: <Tooltip title='(Kills + Assists) / Deaths based on 10 latest matches.'>KDA</Tooltip>,
         dataIndex: 'kda',
         key: 'kda',
         render: (value) => (
@@ -97,30 +95,17 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
             </div>
           )
         }
-      },
-      {
-        title: 'Lane',
-        dataIndex: 'lane',
-        key: 'lane',
-        render: (lanes: Lane[]) => {
-          const mostPlayedLane = _.maxBy(lanes, 'lanePercent')
-          const percentages = lanes.map((l) => ({
-            percent: l.lanePercent,
-            color: _.get(HERO_ROLES_COLORS, l.laneName, '#000000')
-          }))
-          return (
-            <div>
-              {mostPlayedLane.laneName}
-              <MultiSegmentProgress percentages={percentages} />
-            </div>
-          )
-        }
       }
     ],
-    []
+    [data]
   )
 
-  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered loading={loading}/>
+  return (
+    <div className='heroes_most_played__root'>
+      <p>Most Played Heroes</p>
+      <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered />
+    </div>
+  )
 }
 
 export default HeroesMostPlayedTable

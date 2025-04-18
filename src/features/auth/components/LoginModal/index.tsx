@@ -7,6 +7,11 @@ import AppLogo from '@/assets/Logo.png'
 import LoginModalThumbnailImg from '@/assets/login-thumbnail.jpeg'
 
 export default function LoginModal() {
+  const handleSteamLogin = () => {
+    // Redirect đến Flask backend để bắt đầu quá trình login
+    window.location.href = 'http://localhost:5000/auth/steam'
+  }
+
   return (
     <div className='login-modal'>
       <div className='login-modal__thumbnail'>
@@ -18,9 +23,18 @@ export default function LoginModal() {
         <p className='login-section__description'>
           Join us and get more benefits. We promise to keep your data safely.
         </p>
-        <Button icon={<FaSteam size={20} />} size='large' block className='login-section__steam-login-btn'>
+
+        {/* Nút Steam login có onClick */}
+        <Button
+          icon={<FaSteam size={20} />}
+          size='large'
+          block
+          className='login-section__steam-login-btn'
+          onClick={handleSteamLogin}
+        >
           Sign in with Steam
         </Button>
+
         <p className='login-section__login-seperator'>or you can</p>
         <RegisterForm />
         <p className='login-section__already-have-account'>

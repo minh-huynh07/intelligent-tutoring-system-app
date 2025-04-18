@@ -3,7 +3,6 @@ import { Table, Avatar, Progress } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import _ from 'lodash'
-
 import './styles.scss'
 import MultiSegmentProgress from '@/components/MultiSegmentProgressBar'
 import { Match } from '@/types'
@@ -15,11 +14,10 @@ const matchResultText = {
 
 type LatestMatchesTableProps = {
   data: Match[]
-  loading: boolean
 }
 
 const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
-  const { data, loading = false } = props
+  const { data } = props
 
   const maxDurationSeconds: number = _.maxBy(data, 'durationSeconds', null)?.durationSeconds
 
@@ -116,10 +114,15 @@ const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
         }
       }
     ],
-    []
+    [data]
   )
 
-  return <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered loading={loading} />
+  return (
+    <div className='latest_match_table__root'>
+      <p>Latest Matches</p>
+      <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered/>
+    </div>
+  )
 }
 
 export default LatestMatchesTable
