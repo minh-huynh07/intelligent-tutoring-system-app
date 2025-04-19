@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import './styles.scss'
 import { useUser } from '@/contexts/UserContext'
-import { Hero, PlayerStats } from '@/types'
+import { Hero, PlayerStats, RecommendedHero } from '@/types'
 import { sumBy } from 'lodash'
 
 const defaultStats: PlayerStats = {
@@ -42,6 +42,17 @@ const LOBBY_TYPE_MAP: Record<number, string> = {
   8: '1v1 Mid',
   9: 'Battle Cup'
 }
+
+const RECOMMENDED_HEROES_SAMPLE: RecommendedHero[] = [
+  {
+    name: 'Pangolier',
+    img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png'
+  },
+  {
+    name: 'Omniknight',
+    img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png'
+  }
+]
 
 const GAME_MODE_MAP: Record<number, string> = {
   1: 'All Pick',
@@ -166,7 +177,8 @@ const AccountStatPage = () => {
               matches: hero.games,
               winPercentage: `${((hero.win / hero.games) * 100).toFixed(2)}%`,
               kda: computeKda(hero, matchesRes),
-              role: roleData
+              role: roleData,
+              recommendedHeroes: RECOMMENDED_HEROES_SAMPLE
             }
           })
         setMostPlayedHeroes(topHeroes)

@@ -34,17 +34,17 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
           </div>
         )
       },
-      // {
-      //   title: 'Recommended Heroes',
-      //   dataIndex: 'recommendedHeroes',
-      //   key: 'recommendedHeroes',
-      //   render: (rheroes: RecommendedHero[]) =>
-      //     rheroes.map((h) => (
-      //       <Tooltip title={h.name}>
-      //         <Avatar src={h.img} shape='circle' />
-      //       </Tooltip>
-      //     ))
-      // },
+      {
+        title: 'Recommended Heroes',
+        dataIndex: 'recommendedHeroes',
+        key: 'recommendedHeroes',
+        render: (rheroes: RecommendedHero[]) =>
+          rheroes.map((h) => (
+            <Tooltip title={h.name}>
+              <Avatar src={h.img} shape='circle' />
+            </Tooltip>
+          ))
+      },
       {
         title: 'Matches',
         dataIndex: 'matches',

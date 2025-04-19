@@ -18,6 +18,8 @@ export interface Course {
   user_id?: string
   created_at?: string
   updated_at?: string
+  thumbnail?: string
+  rating?: number,
   heroes: Hero[]
 }
 

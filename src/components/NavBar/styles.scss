@@ -18,10 +18,17 @@
 .navbar__logo {
   display: flex;
   align-items: center;
-  height: 43px;
-  width: 152px;
+  height: 72px;
+  width: 180px;
   gap: 8px;
   cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* preserves aspect ratio and letterboxes if needed */
+    display: block;   
+  }
 }
 
 .navbar__browse {

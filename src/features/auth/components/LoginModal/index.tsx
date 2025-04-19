@@ -3,7 +3,7 @@ import { FaSteam } from 'react-icons/fa'
 
 import RegisterForm from '../LoginForm'
 import './styles.scss'
-import AppLogo from '@/assets/Logo.png'
+import AppLogo from '@/assets/main-logo.png'
 import LoginModalThumbnailImg from '@/assets/login-thumbnail.jpeg'
 
 export default function LoginModal() {
@@ -19,7 +19,9 @@ export default function LoginModal() {
       </div>
 
       <div className='login-modal__login-section'>
-        <img src={AppLogo} alt='User Avatar' className='login-section__logo' />
+        <div className='login-section__logo'>
+          <img src={AppLogo} alt='User Avatar' className='login-section__logo' />
+        </div>
         <p className='login-section__description'>
           Join us and get more benefits. We promise to keep your data safely.
         </p>

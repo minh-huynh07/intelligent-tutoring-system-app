@@ -2,7 +2,7 @@ import { useUser } from '@/contexts/UserContext'
 import { Avatar, Dropdown, Menu, Tooltip } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { FaSearch, FaShoppingCart, FaBell, FaUserAlt } from 'react-icons/fa'
-import AppLogo from '@/assets/Logo.png'
+import AppLogo from '@/assets/main-logo.png'
 import './styles.scss'
 
 export default function NavBar() {
@@ -50,7 +50,7 @@ export default function NavBar() {
 
       {/* Right */}
       <div className='navbar__right'>
-        <span className='navbar__link'>Become Instructor</span>
+        <span className='navbar__link' onClick={() => navigate('/admin/login')}>Become Instructor</span>
         <FaShoppingCart className='navbar__icon' />
         <FaBell className='navbar__icon' />
 
