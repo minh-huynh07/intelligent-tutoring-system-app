@@ -19,7 +19,7 @@ type LatestMatchesTableProps = {
 const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
   const { data } = props
 
-  const maxDurationSeconds: number = _.maxBy(data, 'durationSeconds', null)?.durationSeconds
+  const maxDurationSeconds: number = _.maxBy(data, 'durationSeconds')?.durationSeconds || 0
 
   const columns = useMemo<ColumnsType<Match>>(
     () => [
@@ -120,7 +120,7 @@ const LatestMatchesTable: React.FC<LatestMatchesTableProps> = (props) => {
   return (
     <div className='latest_match_table__root'>
       <p>Latest Matches</p>
-      <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered/>
+      <Table dataSource={data} columns={columns} pagination={false} rowKey='hero' bordered />
     </div>
   )
 }

@@ -39,6 +39,11 @@ export default tseslint.config(
           jsxSingleQuote: true,
         },
       ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      "react-refresh/only-export-components": "off",
+      "react-hooks/exhaustive-deps": "warn",
+      "no-multiple-empty-lines": "off"
     },
   },
 );

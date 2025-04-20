@@ -1,5 +1,5 @@
 // src/services/httpService.ts
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios'
 
 /**
  * A configurable HTTP service using Axios for API calls across multiple microservices.
@@ -21,7 +21,7 @@ export class HttpService {
 
     // Attach auth token on each request if present
     this.api.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
+      (config: InternalAxiosRequestConfig) => {
         const token = localStorage.getItem('auth_token')
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`

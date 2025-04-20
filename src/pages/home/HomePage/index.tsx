@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ListPage, { Video } from '@/features/home/components'
 
 const mockVideos: Video[] = [
@@ -55,7 +55,7 @@ const mockVideos: Video[] = [
 
 const HomePage: React.FC = () => {
   // if you’re fetching from an API, you might replace this with useEffect + fetch()
-  const [videos, setVideos] = useState<Video[]>(mockVideos)
+  const [videos, _setVideos] = useState<Video[]>(mockVideos)
 
   return (
     <div className='home-page'>

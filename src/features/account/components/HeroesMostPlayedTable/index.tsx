@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Table, Tag, Avatar, Progress, Tooltip } from 'antd'
+import { Table, Avatar, Progress, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import _ from 'lodash'
@@ -7,16 +7,15 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import './styles.scss'
 import MultiSegmentProgress from '@/components/MultiSegmentProgressBar'
 import { HERO_ROLES_COLORS } from '@/const'
-import { Hero, HeroesMostPlayProps, RecommendedHero } from '@/types'
+import { Hero, HeroesMostPlayProps, RecommendedHero, Role } from '@/types'
 
 dayjs.extend(relativeTime)
 
 const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
-  const { data, loading = false } = props
+  const { data } = props
 
-  const maxPlayedMatches: number = _.maxBy(data, 'matches', null)?.matches
-  console.log(maxPlayedMatches)
-  const maxKDA: number = _.maxBy(data, 'kda')?.kda
+  const maxPlayedMatches: number = _.maxBy(data, 'matches')?.matches || 0
+  const maxKDA: number = _.maxBy(data, 'kda')?.kda || 0
 
   const columns = useMemo<ColumnsType<Hero>>(
     () => [
@@ -90,7 +89,7 @@ const HeroesMostPlayedTable: React.FC<HeroesMostPlayProps> = (props) => {
           }))
           return (
             <div>
-              {mostPlayedRole.roleName}
+              {mostPlayedRole?.roleName}
               <MultiSegmentProgress percentages={percentages} />
             </div>
           )

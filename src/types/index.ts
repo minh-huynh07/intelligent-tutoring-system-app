@@ -16,9 +16,9 @@ export type CourseLecture = {
 }
 
 export interface Lecture {
-  id: string;
-  title: string;
-  duration: number; // in seconds
+  id: string
+  title: string
+  duration: number // in seconds
   // …other fields
 }
 
@@ -78,7 +78,7 @@ export type RecommendedHero = {
 }
 
 export type PlayerStatisticProps = {
-  playerStats: PlayerStats,
+  playerStats: PlayerStats
 }
 
 export type Hero = {

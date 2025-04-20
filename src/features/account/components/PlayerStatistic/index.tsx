@@ -38,31 +38,31 @@ const PlayerStatistic: React.FC<PlayerStatisticProps> = (props) => {
     <div className='player-statistics'>
       <table className='player-statistics__stat-section'>
         <tbody>
-          <StatItem label={labelMap['winrate']} value={stats['winrate']}  />
+          <StatItem label={labelMap['winrate']} value={stats['winrate']} />
 
-          <StatItem label={labelMap['kills']} value={stats['kills']}  />
+          <StatItem label={labelMap['kills']} value={stats['kills']} />
 
-          <StatItem label={labelMap['deaths']} value={stats['deaths']}  />
+          <StatItem label={labelMap['deaths']} value={stats['deaths']} />
 
-          <StatItem label={labelMap['assists']} value={stats['assists']}  />
+          <StatItem label={labelMap['assists']} value={stats['assists']} />
 
-          <StatItem label={labelMap['goldPerMin']} value={stats['goldPerMin']}  />
+          <StatItem label={labelMap['goldPerMin']} value={stats['goldPerMin']} />
 
-          <StatItem label={labelMap['xpPerMin']} value={stats['xpPerMin']}  />
+          <StatItem label={labelMap['xpPerMin']} value={stats['xpPerMin']} />
         </tbody>
       </table>
 
       <table className='player-statistics__stat-section'>
         <tbody>
-          <StatItem label={labelMap['heroDamage']} value={stats['heroDamage']}  />
+          <StatItem label={labelMap['heroDamage']} value={stats['heroDamage']} />
 
-          <StatItem label={labelMap['heroHealing']} value={stats['heroHealing']}  />
+          <StatItem label={labelMap['heroHealing']} value={stats['heroHealing']} />
 
-          <StatItem label={labelMap['towerDamage']} value={stats['towerDamage']}  />
+          <StatItem label={labelMap['towerDamage']} value={stats['towerDamage']} />
 
-          <StatItem label={labelMap['duration']} value={stats['duration']}  />
+          <StatItem label={labelMap['duration']} value={stats['duration']} />
 
-          <StatItem label={labelMap['currentRank']} value={stats['currentRank']}  />
+          <StatItem label={labelMap['currentRank']} value={stats['currentRank']} />
         </tbody>
       </table>
     </div>

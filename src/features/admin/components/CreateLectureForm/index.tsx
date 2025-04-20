@@ -16,7 +16,7 @@ const CreateLectureForm: React.FC = () => {
   const [form] = Form.useForm<CreateLectureFormState>()
   const [loading, setLoading] = useState(false)
 
-  const handleFinish = async (values: CreateLectureFormState) => {
+  const handleFinish = async (_values: CreateLectureFormState) => {
     setLoading(true)
     try {
       toast.success('Lecture created successfully!')

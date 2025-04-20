@@ -16,7 +16,7 @@ interface AdminAuthModalProps {
 
 const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ mode }) => {
   const navigate = useNavigate()
-  const { setUser } = useUser()
+  const { setUser: _setUser } = useUser()
   const [loading, setLoading] = React.useState<{ login: boolean; signup: boolean }>({
     login: false,
     signup: false
@@ -74,7 +74,7 @@ const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ mode }) => {
         <p className='auth-subtitle'>This portal is for course instructors and administrators only.</p>
 
         {mode === 'login' ? (
-          <Form<LoginFormValues> name='admin_login' layout='vertical' onFinish={onLoginFinish}>
+          <Form name='admin_login' layout='vertical' onFinish={onLoginFinish}>
             <Form.Item name='email' label='Email' rules={[{ required: true, message: 'Please enter your email!' }]}>
               <Input placeholder='admin@yourdomain.com' disabled={loading.login} />
             </Form.Item>
@@ -97,7 +97,7 @@ const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ mode }) => {
             </div>
           </Form>
         ) : (
-          <Form<SignupFormValues> name='admin_signup' layout='vertical' onFinish={onSignupFinish}>
+          <Form name='admin_signup' layout='vertical' onFinish={onSignupFinish}>
             <Form.Item
               name='name'
               label='Full Name'

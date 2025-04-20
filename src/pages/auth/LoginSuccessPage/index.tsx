@@ -17,21 +17,20 @@ const LoginSuccessPage = () => {
     if (steamid && account_id) {
       // Gọi OpenDota API để lấy thông tin người dùng
       fetch(`https://api.opendota.com/api/players/${account_id}`)
-        .then(res => res.json())
-        .then(data => {
-
+        .then((res) => res.json())
+        .then((data) => {
           const userData = {
             profile: data.profile,
             rank_tier: data.rank_tier,
             leaderboard_rank: data.leaderboard_rank
           }
-          
+
           localStorage.setItem('user', JSON.stringify(userData))
           setUser(userData)
           navigate('/my-account/stats')
         })
-        .catch(err => {
-          console.error("OpenDota error", err)
+        .catch((err) => {
+          console.error('OpenDota error', err)
           navigate('/login-failed')
         })
     } else {

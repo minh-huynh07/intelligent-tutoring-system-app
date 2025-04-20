@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:mpeg:dash:schema:mpd:2011"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
+	profiles="urn:mpeg:dash:profile:isoff-live:2011"
+	type="static"
+	mediaPresentationDuration="PT55.6S"
+	maxSegmentDuration="PT5.0S"
+	minBufferTime="PT13.3S">
+	<ProgramInformation>
+		<Title>Idea - Cinematic Video | Shot on Canon EOS250D</Title>
+	</ProgramInformation>
+	<ServiceDescription id="0">
+	</ServiceDescription>
+	<Period id="0" start="PT0.0S">
+		<AdaptationSet id="0" contentType="video" startWithSAP="1" segmentAlignment="true" bitstreamSwitching="true" frameRate="25/1" maxWidth="1280" maxHeight="536" par="160:67" lang="und">
+			<Representation id="0" mimeType="video/mp4" codecs="avc1.64001f" bandwidth="1000000" width="1280" height="536" sar="1:1">
+				<SegmentTemplate timescale="12800" initialization="init-$RepresentationID$.m4s" media="chunk-$RepresentationID$-$Number$.m4s" startNumber="1">
+					<SegmentTimeline>
+						<S t="0" d="74240" />
+						<S d="87552" />
+						<S d="80896" />
+						<S d="107520" />
+						<S d="74240" />
+						<S d="78848" />
+						<S d="81920" />
+						<S d="126976" />
+					</SegmentTimeline>
+				</SegmentTemplate>
+			</Representation>
+			<Representation id="2" mimeType="video/mp4" codecs="avc1.64001e" bandwidth="500000" width="640" height="360" sar="90:67">
+				<SegmentTemplate timescale="12800" initialization="init-$RepresentationID$.m4s" media="chunk-$RepresentationID$-$Number$.m4s" startNumber="1">
+					<SegmentTimeline>
+						<S t="0" d="74240" />
+						<S d="87552" />
+						<S d="80896" />
+						<S d="107520" />
+						<S d="74240" />
+						<S d="75264" />
+						<S d="85504" />
+						<S d="126976" />
+					</SegmentTimeline>
+				</SegmentTemplate>
+			</Representation>
+		</AdaptationSet>
+		<AdaptationSet id="1" contentType="audio" startWithSAP="1" segmentAlignment="true" bitstreamSwitching="true" lang="und">
+			<Representation id="1" mimeType="audio/mp4" codecs="mp4a.40.2" bandwidth="128000" audioSamplingRate="44100">
+				<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+				<SegmentTemplate timescale="44100" initialization="init-$RepresentationID$.m4s" media="chunk-$RepresentationID$-$Number$.m4s" startNumber="1">
+					<SegmentTimeline>
+						<S t="0" d="219876" />
+						<S d="221184" r="9" />
+						<S d="24576" />
+					</SegmentTimeline>
+				</SegmentTemplate>
+			</Representation>
+			<Representation id="3" mimeType="audio/mp4" codecs="mp4a.40.2" bandwidth="128000" audioSamplingRate="44100">
+				<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+				<SegmentTemplate timescale="44100" initialization="init-$RepresentationID$.m4s" media="chunk-$RepresentationID$-$Number$.m4s" startNumber="1">
+					<SegmentTimeline>
+						<S t="0" d="219876" />
+						<S d="221184" r="9" />
+						<S d="24576" />
+					</SegmentTimeline>
+				</SegmentTemplate>
+			</Representation>
+		</AdaptationSet>
+	</Period>
+</MPD>

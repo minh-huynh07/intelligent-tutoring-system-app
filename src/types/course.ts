@@ -5,9 +5,9 @@ export interface Hero {
 }
 
 export enum CourseType {
-  ORDINARY = "ORDINARY",
-  COACHING = "COACHING",
-  LIVE     = "LIVE",
+  ORDINARY = 'ORDINARY',
+  COACHING = 'COACHING',
+  LIVE = 'LIVE'
 }
 
 export interface Course {
@@ -19,7 +19,7 @@ export interface Course {
   created_at?: string
   updated_at?: string
   thumbnail?: string
-  rating?: number,
+  rating?: number
   heroes: Hero[]
 }
 

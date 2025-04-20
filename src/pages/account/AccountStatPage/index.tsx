@@ -118,7 +118,7 @@ const AccountStatPage = () => {
         // Build hero map for name + image
         const heroMap = new Map<
           number,
-          { name: string; img: string; roles: string[]; laneRoles: Record<string, number> }
+          { name: string; img: string; roles: string[]; laneRoles?: Record<string, number> }
         >()
         for (const h of heroStatsRes) {
           heroMap.set(h.id, {
@@ -165,9 +165,10 @@ const AccountStatPage = () => {
           .map((hero: any) => {
             const meta = heroMap.get(hero.hero_id)
 
+            const roleLength = meta?.roles?.length || 1
             const roleData = (meta?.roles || []).map((roleName) => ({
               roleName,
-              rolePercent: Math.floor(100 / meta.roles.length)
+              rolePercent: Math.floor(100 / roleLength)
             }))
 
             return {

@@ -8,7 +8,7 @@ type FieldType = {
 }
 
 const RegisterForm: React.FC = () => {
-  const [form] = Form.useForm<FieldType>()
+  const [_form] = Form.useForm<FieldType>()
 
   const handleSubmit = (values: FieldType) => {
     console.log('Form values:', values)

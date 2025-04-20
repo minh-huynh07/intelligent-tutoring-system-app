@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaStar } from 'react-icons/fa'
 import ReactPlayer from 'react-player'
 
@@ -9,7 +8,7 @@ const courseData = {
   author: 'Steven Arnatouvic',
   ratingPoint: 4.8,
   ratingCounts: 1812,
-  videoUrl: 'https://youtu.be/IPxbJ7AoIdI'
+  videoUrl: 'http://localhost:3000/public/manifest.mpd'
 }
 const CourseWatchPage = () => {
   const { title, author, ratingPoint, ratingCounts, videoUrl } = courseData
@@ -30,7 +29,7 @@ const CourseWatchPage = () => {
       </div>
 
       <div className='course-video'>
-        <ReactPlayer url={videoUrl} width="100%" height="100%" />
+        <ReactPlayer url={videoUrl} width='100%' height='100%' controls />
       </div>
     </div>
   )
