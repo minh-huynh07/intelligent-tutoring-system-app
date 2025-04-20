@@ -41,7 +41,7 @@ export default function NavBar() {
   )
 
   const avatarUrl = user?.profile?.avatarfull
-  const displayName = user?.profile?.personaname || 'Guest'
+  const displayName = user?.profile?.personaname || user?.name || 'Guest'
 
   return (
     <nav className='navbar'>
@@ -68,7 +68,7 @@ export default function NavBar() {
 
         <Dropdown overlay={menu} placement='bottomRight'>
           <div className='navbar__avatar-wrapper'>
-            <Tooltip title={displayName}>
+            <Tooltip title={displayName} placement='left'>
               <Avatar size='large' src={avatarUrl || undefined} icon={!avatarUrl ? <FaUserAlt /> : undefined} />
             </Tooltip>
           </div>

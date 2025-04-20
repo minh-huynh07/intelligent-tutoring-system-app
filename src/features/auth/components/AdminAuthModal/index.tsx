@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/AdminAuthModal.tsx
 import React from 'react'
 import { Form, Input, Button } from 'antd'
@@ -25,18 +26,11 @@ const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ mode }) => {
   const onLoginFinish = async (values: LoginRequestSchema) => {
     setLoading((l) => ({ ...l, login: true }))
     try {
-      await AuthService.login(values)
+      const { user: data } = await AuthService.login(values)
       toast.success('Logged in successfully!')
-
-      // const userData = {
-      //   profile: data.profile,
-      //   rank_tier: data.rank_tier,
-      //   leaderboard_rank: data.leaderboard_rank
-      // }
-      
-      // localStorage.setItem('user', JSON.stringify(userData))
-      // setUser(userData)
-      // navigate('/admin/courses')
+      localStorage.setItem('user', JSON.stringify(data))
+      setUser(data)
+      navigate('/admin/courses')
     } catch (err) {
       console.error(err)
       toast.error('Login failed: ' + (err as any).message)

@@ -1,6 +1,6 @@
 // src/services/courseService.ts
 
-import { LoginRequestSchema, SignupRequestSchema } from '@/types/auth'
+import { LoginRequestSchema, SignupRequestSchema, LoginResponseSchema } from '@/types/auth'
 import { HttpService } from '@/utils/httpClient'
 
 class AuthService extends HttpService {
@@ -14,7 +14,7 @@ class AuthService extends HttpService {
     return this.post(`${this.endpoint}/signup`, data)
   }
 
-  login(data: LoginRequestSchema): Promise<void> {
+  login(data: LoginRequestSchema): Promise<LoginResponseSchema> {
     return this.post(`${this.endpoint}/login`, data)
   }
 }

@@ -6,16 +6,13 @@ import { useUser } from '@/contexts/UserContext'
 const AdminRoute: React.FC = () => {
   const { user } = useUser()
   const location = useLocation()
-
   if (!user) {
     // chưa login → chuyển sang admin login
     return <Navigate to="/admin/login" state={{ from: location }} replace />
   }
-  if (!user.isAdmin) {
-    // đã login nhưng không phải admin → về trang chủ
+  if (user.role !== 'instructor') {
     return <Navigate to="/" replace />
   }
-  // OK, render các route con
   return <Outlet />
 }
 

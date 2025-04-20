@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { UserInfo } from '@/types'
+import { AdminSchema } from '@/types/auth'
 
 interface UserContextType {
-  user: UserInfo | null
-  setUser: (user: UserInfo | null) => void
+  user: (UserInfo & AdminSchema) | null
+  setUser: (user: (UserInfo & AdminSchema) | null) => void
 }
 
 const UserContext = createContext<UserContextType>({
@@ -14,14 +15,10 @@ const UserContext = createContext<UserContextType>({
 export const useUser = () => useContext(UserContext)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserInfo | null>(null)
-
-  useEffect(() => {
+  const [user, setUser] = useState<(UserInfo & AdminSchema) | null>(() => {
     const stored = localStorage.getItem('user')
-    if (stored) {
-      setUser(JSON.parse(stored))
-    }
-  }, [])
+    return stored ? JSON.parse(stored) : null
+  })
 
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
 }

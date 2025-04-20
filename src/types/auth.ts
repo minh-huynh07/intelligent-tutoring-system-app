@@ -1,10 +1,10 @@
 import { Course } from "./course"
 
-export interface UserSchema {
-  id: string      // UUID as a string
+export interface AdminSchema {
+  id: string
   name: string
   email: string
-  cognito_sub: string
+  cognito_sub?: string
   role: string
 }
 
@@ -13,7 +13,7 @@ export interface UserSchema {
  * class UserToCourseSchema(UserSchema):
  *   courses: list[CourseSchema] = Field(default_factory=list)
  */
-export interface UserToCourseSchema extends UserSchema {
+export interface UserToCourseSchema extends AdminSchema {
   courses: Course[]
 }
 
@@ -28,6 +28,11 @@ export interface SignupRequestSchema {
 export interface LoginRequestSchema {
   email: string
   password: string
+}
+
+export interface LoginResponseSchema {
+  message: string
+  user: AdminSchema
 }
 
 

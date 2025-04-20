@@ -42,10 +42,9 @@ export interface UserProfile {
 }
 
 export interface UserInfo {
-  profile: UserProfile
-  rank_tier: number
-  leaderboard_rank: number | null
-  isAdmin?: boolean
+  profile?: UserProfile
+  rank_tier?: number
+  leaderboard_rank?: number | null
 }
 
 export type PlayerStats = {
