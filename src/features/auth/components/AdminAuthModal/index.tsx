@@ -29,7 +29,7 @@ const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ mode }) => {
       const { user: data } = await AuthService.login(values)
       toast.success('Logged in successfully!')
       localStorage.setItem('user', JSON.stringify(data))
-      setUser(data)
+      _setUser(data)
       navigate('/admin/courses')
     } catch (err) {
       console.error(err)

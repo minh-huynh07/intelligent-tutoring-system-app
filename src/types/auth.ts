@@ -1,11 +1,11 @@
 import { Course } from "./course"
 
 export interface AdminSchema {
-  id: string
-  name: string
-  email: string
+  id?: string
+  name?: string
+  email?: string
   cognito_sub?: string
-  role: string
+  role?: string
 }
 
 /**
