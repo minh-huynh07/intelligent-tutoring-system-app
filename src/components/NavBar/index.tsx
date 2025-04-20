@@ -19,13 +19,23 @@ export default function NavBar() {
     navigate('/my-account/stats')
   }
 
-  const menu = (
+  const handleLogin = () => {
+    navigate('/authentication')
+  }
+
+  const menu = user ? (
     <Menu>
       <Menu.Item key='profile' onClick={handleProfile}>
         My Profile
       </Menu.Item>
       <Menu.Item key='logout' onClick={handleLogout}>
         Logout
+      </Menu.Item>
+    </Menu>
+  ) : (
+    <Menu>
+      <Menu.Item key='login' onClick={handleLogin}>
+        Login
       </Menu.Item>
     </Menu>
   )
@@ -50,7 +60,9 @@ export default function NavBar() {
 
       {/* Right */}
       <div className='navbar__right'>
-        <span className='navbar__link' onClick={() => navigate('/admin/login')}>Become Instructor</span>
+        <span className='navbar__link' onClick={() => navigate('/admin/login')}>
+          Become Instructor
+        </span>
         <FaShoppingCart className='navbar__icon' />
         <FaBell className='navbar__icon' />
 

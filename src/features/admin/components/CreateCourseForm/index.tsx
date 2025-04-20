@@ -1,5 +1,5 @@
 // src/features/courses/CreateCourseForm.tsx
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, Select } from 'antd'
 import CourseService from '@/services/CourseService'
 import './styles.scss'
@@ -8,8 +8,10 @@ import { toast } from 'react-toastify'
 
 const CreateCourseForm: React.FC = () => {
   const [form] = Form.useForm<CourseCreatePayload & { heroesInput: string }>()
+  const [loading, setLoading] = useState(false)
 
   const handleFinish = async (values: CourseCreatePayload & { heroesInput: string }) => {
+    setLoading(true)
     try {
       // parse heroes comma-separated into number[]
       const heroes = values.heroesInput
@@ -25,13 +27,15 @@ const CreateCourseForm: React.FC = () => {
         user_id: values.user_id,
         heroes
       }
-      await CourseService.createCourse(payload)
 
+      await CourseService.createCourse(payload)
       toast.success('Course created successfully!')
       form.resetFields()
     } catch (error) {
       console.error(error)
       toast.error('Something went wrong…')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -52,22 +56,22 @@ const CreateCourseForm: React.FC = () => {
           name='user_id'
           rules={[{ required: true, message: 'Please input instructor ID' }]}
         >
-          <Input />
+          <Input disabled={loading} />
         </Form.Item>
 
         <Form.Item label='Title' name='title' rules={[{ required: true, message: 'Please input course title' }]}>
-          <Input />
+          <Input disabled={loading} />
         </Form.Item>
 
         <Form.Item label='Description' name='description'>
-          <Input.TextArea rows={3} />
+          <Input.TextArea rows={3} disabled={loading} />
         </Form.Item>
 
         <Form.Item label='Type' name='type' rules={[{ required: true, message: 'Please select a course type' }]}>
-          <Select placeholder='Select course type'>
+          <Select placeholder='Select course type' disabled={loading}>
             {Object.values(CourseType).map((t) => (
               <Select.Option key={t} value={t}>
-                {t /* or t.toLowerCase().replace('_',' ') for friendlier text */}
+                {t}
               </Select.Option>
             ))}
           </Select>
@@ -78,12 +82,12 @@ const CreateCourseForm: React.FC = () => {
           name='heroesInput'
           rules={[{ required: true, message: 'Please input hero IDs separated by commas' }]}
         >
-          <Input placeholder='e.g. 1,2,3' />
+          <Input placeholder='e.g. 1,2,3' disabled={loading} />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type='primary' htmlType='submit'>
-            Save
+          <Button type='primary' htmlType='submit' loading={loading}>
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Form.Item>
       </Form>

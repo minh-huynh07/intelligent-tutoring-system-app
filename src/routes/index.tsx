@@ -3,20 +3,26 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from '@/layouts/MainLayout'
 
-// Public/User pages
+// Public/User pages & guard
 import HomePage from '@/pages/home/HomePage'
+
+import UserRoute from '@/components/PrivateRoute/UserRoute'
+
+// Admin pages & guard
+
+import InstructorHomePage from '@/pages/admin/ListPage'
+import AdminCoursePage from '@/pages/admin/AdminCoursePage'
 import AdminLecturePage from '@/pages/admin/AdminLecturePage'
+import AdminRoute from '@/components/PrivateRoute/AdminRoute'
 import {
   AccountPage,
   AccountStatPage,
-  AdminCoursePage,
   AdminLoginPage,
   AdminSignUpPage,
   AuthenticationPage,
   CourseWatchPage,
   LoginSuccessPage
 } from '@/pages'
-import InstructorHomePage from '@/pages/admin/ListPage'
 
 export default function AppRouter() {
   return (
@@ -25,37 +31,58 @@ export default function AppRouter() {
         {/* Wrap tất cả trong MainLayout */}
         <Route element={<MainLayout />}>
           {/* === Public/User routes === */}
-          <Route index element={<HomePage />} />
+          <Route
+            index
+            element={
+              <UserRoute>
+                <HomePage />
+              </UserRoute>
+            }
+          />
           <Route path='authentication' element={<AuthenticationPage />} />
           <Route path='login-success' element={<LoginSuccessPage />} />
 
-          <Route path='my-account'>
-            <Route index element={<AccountPage />} />
-            <Route path='stats' element={<AccountStatPage />} />
-          </Route>
+          <Route
+            path='my-account/*'
+            element={
+              <UserRoute>
+                <Routes>
+                  <Route index element={<AccountPage />} />
+                  <Route path='stats' element={<AccountStatPage />} />
+                </Routes>
+              </UserRoute>
+            }
+          />
 
-          <Route path='courses'>
-            <Route path='watch' element={<CourseWatchPage />} />
-          </Route>
+          <Route
+            path='courses/watch'
+            element={
+              <UserRoute>
+                <CourseWatchPage />
+              </UserRoute>
+            }
+          />
 
           {/* === Admin routes === */}
           <Route path='admin'>
-            {/* — Auth */}
+            {/* — Auth không cần wrapper */}
             <Route path='login' element={<AdminLoginPage />} />
             <Route path='signup' element={<AdminSignUpPage />} />
 
-            {/* — Dashboard */}
-            <Route path='courses'>
-              <Route index element={<InstructorHomePage />} /> {/* /admin/courses — danh sách & quản lý */}
-              <Route path='new' element={<AdminCoursePage />} /> {/* /admin/courses/new — tạo course mới */}
+            {/* — Tất cả các route con dưới đây sẽ phải pass AdminRoute */}
+            <Route element={<AdminRoute />}>
+              <Route path='courses'>
+                <Route index element={<InstructorHomePage />} /> {/* /admin/courses */}
+                <Route path='new' element={<AdminCoursePage />} /> {/* /admin/courses/new */}
+              </Route>
+              <Route path='lectures'>
+                <Route index element={<AdminLecturePage />} /> {/* /admin/lectures */}
+                <Route path='new' element={<AdminLecturePage />} /> {/* /admin/lectures/new */}
+              </Route>
             </Route>
-            <Route path='courses'>
-              <Route path='new' element={<AdminLecturePage />} /> {/* /admin/courses/new — tạo course mới */}
-            </Route>
-            <Route path='lectures' element={<AdminLecturePage />} />
           </Route>
 
-          {/* Fallback: nếu không khớp route nào, chuyển về Home */}
+          {/* Fallback */}
           <Route path='*' element={<Navigate to='/' replace />} />
         </Route>
       </Routes>

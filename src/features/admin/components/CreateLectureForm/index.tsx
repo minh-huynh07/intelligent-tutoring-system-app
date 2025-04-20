@@ -1,35 +1,44 @@
-import React from 'react'
+// src/features/lectures/CreateLectureForm.tsx
+import React, { useState } from 'react'
 import { Form, Input, Button, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import './styles.scss'
 import { RcFile } from 'antd/es/upload'
+import { toast } from 'react-toastify'
+import './styles.scss'
 
 interface CreateLectureFormState {
   title: string
   courseID: string
-  video?: RcFile | null
+  video?: RcFile[] // note: Upload fileList is RcFile[]
 }
 
 const CreateLectureForm: React.FC = () => {
   const [form] = Form.useForm<CreateLectureFormState>()
+  const [loading, setLoading] = useState(false)
 
-  const handleFinish = (data: any) => {
-    console.log(data)
-    // TODO: Handle submit creating lecture
+  const handleFinish = async (values: CreateLectureFormState) => {
+    setLoading(true)
+    try {
+      toast.success('Lecture created successfully!')
+      form.resetFields()
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to create lecture.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className='create-lecture-form'>
-      <h2 className='create-lecture-form__title'>Create lecture</h2>
+      <h2 className='create-lecture-form__title'>Create Lecture</h2>
       <Form
         form={form}
-        name='basic'
+        name='create-lecture'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
         onFinish={handleFinish}
-        // onFinishFailed={onFinishFailed}
         autoComplete='off'
       >
         <Form.Item
@@ -37,7 +46,7 @@ const CreateLectureForm: React.FC = () => {
           name='title'
           rules={[{ required: true, message: 'Please input lecture title!' }]}
         >
-          <Input />
+          <Input disabled={loading} />
         </Form.Item>
 
         <Form.Item
@@ -45,35 +54,34 @@ const CreateLectureForm: React.FC = () => {
           name='courseID'
           rules={[{ required: true, message: 'Please input your course ID!' }]}
         >
-          <Input />
+          <Input disabled={loading} />
         </Form.Item>
 
         <Form.Item
           name='video'
           label='Upload'
-          valuePropName='file'
+          valuePropName='fileList'
           getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
         >
           <Upload
-            beforeUpload={() => false} // prevent auto upload
+            beforeUpload={() => false}
             customRequest={({ onSuccess }) => {
-              setTimeout(() => {
-                onSuccess?.('ok')
-              }, 0)
+              setTimeout(() => onSuccess?.('ok'), 0)
             }}
             listType='picture-card'
             accept='video/*'
+            disabled={loading}
           >
-            <button style={{ color: 'inherit', cursor: 'inherit', border: 0, background: 'none' }} type='button'>
+            <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>Upload</div>
-            </button>
+            </div>
           </Upload>
         </Form.Item>
 
-        <Form.Item label={null}>
-          <Button type='primary' htmlType='submit'>
-            Save
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type='primary' htmlType='submit' loading={loading}>
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Form.Item>
       </Form>
