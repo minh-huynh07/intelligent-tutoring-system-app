@@ -8,7 +8,6 @@ import './styles.scss'
 
 interface CreateLectureFormState {
   title: string
-  courseID: string
   video?: RcFile[] // note: Upload fileList is RcFile[]
 }
 
@@ -45,14 +44,6 @@ const CreateLectureForm: React.FC = () => {
           label='Lecture Title'
           name='title'
           rules={[{ required: true, message: 'Please input lecture title!' }]}
-        >
-          <Input disabled={loading} />
-        </Form.Item>
-
-        <Form.Item
-          label='Course ID'
-          name='courseID'
-          rules={[{ required: true, message: 'Please input your course ID!' }]}
         >
           <Input disabled={loading} />
         </Form.Item>

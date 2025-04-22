@@ -8,7 +8,7 @@ const courseData = {
   author: 'Steven Arnatouvic',
   ratingPoint: 4.8,
   ratingCounts: 1812,
-  videoUrl: 'http://localhost:3000/public/manifest.mpd'
+  videoUrl: 'https://game-lecture-processed-videos.s3.ap-southeast-1.amazonaws.com/videos/practice-lesson.mp4/manifest.mpd'
 }
 const CourseWatchPage = () => {
   const { title, author, ratingPoint, ratingCounts, videoUrl } = courseData

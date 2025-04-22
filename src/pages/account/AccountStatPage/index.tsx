@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import './styles.scss'
 import { useUser } from '@/contexts/UserContext'
-import { Hero, PlayerStats, RecommendedHero } from '@/types'
+import { Hero, HeroResult, PlayerStats } from '@/types'
 import { sumBy } from 'lodash'
+import RecommendationService from '@/services/RecommendationService'
 
 const defaultStats: PlayerStats = {
   winrate: '0%',
@@ -42,17 +43,6 @@ const LOBBY_TYPE_MAP: Record<number, string> = {
   8: '1v1 Mid',
   9: 'Battle Cup'
 }
-
-const RECOMMENDED_HEROES_SAMPLE: RecommendedHero[] = [
-  {
-    name: 'Pangolier',
-    img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png'
-  },
-  {
-    name: 'Omniknight',
-    img: 'https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png'
-  }
-]
 
 const GAME_MODE_MAP: Record<number, string> = {
   1: 'All Pick',
@@ -158,30 +148,41 @@ const AccountStatPage = () => {
         setPlayerStats(statObj)
 
         // Build top 5 most played heroes
-        const topHeroes = heroesRes
-          .filter((h: any) => h.games > 0)
-          .sort((a: any, b: any) => b.games - a.games)
-          .slice(0, 5)
-          .map((hero: any) => {
-            const meta = heroMap.get(hero.hero_id)
+        const topHeroes = await Promise.all(
+          heroesRes
+            .filter((h: any) => h.games > 0)
+            .sort((a: any, b: any) => b.games - a.games)
+            .slice(0, 5)
+            .map(async (hero: any) => {
+              const meta = heroMap.get(hero.hero_id)
 
-            const roleLength = meta?.roles?.length || 1
-            const roleData = (meta?.roles || []).map((roleName) => ({
-              roleName,
-              rolePercent: Math.floor(100 / roleLength)
-            }))
+              const roleLength = meta?.roles?.length || 1
+              const roleData = (meta?.roles || []).map((roleName) => ({
+                roleName,
+                rolePercent: Math.floor(100 / roleLength)
+              }))
 
-            return {
-              hero: meta?.name || `Hero ${hero.hero_id}`,
-              heroImg: meta?.img || '',
-              lastPlayed: new Date(hero.last_played * 1000).toISOString(),
-              matches: hero.games,
-              winPercentage: `${((hero.win / hero.games) * 100).toFixed(2)}%`,
-              kda: computeKda(hero, matchesRes),
-              role: roleData,
-              recommendedHeroes: RECOMMENDED_HEROES_SAMPLE
-            }
-          })
+              // Call recommendation API for this hero
+              let recommendedHeroes: HeroResult[] = []
+              try {
+                const res = await RecommendationService.recommendedHeroes({ heroIds: [hero.hero_id] })
+                recommendedHeroes = res.results
+              } catch (error) {
+                console.error(`Error fetching recommended heroes for ${hero.hero_id}:`, error)
+              }
+
+              return {
+                hero: meta?.name || `Hero ${hero.hero_id}`,
+                heroImg: meta?.img || '',
+                lastPlayed: new Date(hero.last_played * 1000).toISOString(),
+                matches: hero.games,
+                winPercentage: `${((hero.win / hero.games) * 100).toFixed(2)}%`,
+                kda: computeKda(hero, matchesRes),
+                role: roleData,
+                recommendedHeroes
+              }
+            })
+        )
         setMostPlayedHeroes(topHeroes)
 
         const latestMatches = matchesRes

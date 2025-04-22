@@ -1,3 +1,5 @@
+import { Course } from './course'
+
 export type CourseInfo = {
   courseTitle: string
   description: string
@@ -109,6 +111,32 @@ export type Match = {
 }
 export type HeroesMostPlayProps = {
   data: Hero[]
+}
+
+export interface GetHeroesRequest {
+  heroIds: number[]
+}
+
+export interface GetCoursesRequest {
+  heroIds: number[]
+}
+
+export interface HeroResult {
+  id: number
+  img: string
+  name: string
+}
+
+export interface GetHeroesResponse {
+  results: HeroResult[]
+}
+
+export interface RecommendedCourseSet extends Course {
+  heroes: HeroResult[]
+}
+
+export interface RecommendedCoursesResponse {
+  results: RecommendedCourseSet[]
 }
 
 export * from './course'

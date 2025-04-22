@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, Row, Col, Typography, Rate } from 'antd'
+import { Card, Row, Col, Typography, Tooltip, Avatar } from 'antd'
+import { HeroResult } from '@/types'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -8,9 +9,10 @@ export interface Video {
   id: string
   title: string
   thumbnail: string
-  instructor: string
+  instructor?: string
   description?: string
   rating?: number
+  heroes?: HeroResult[]
 }
 
 // Props for ListPage component
@@ -42,7 +44,13 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => (
         {video.description}
       </Paragraph>
     )}
-    {typeof video.rating === 'number' && <Rate disabled allowHalf defaultValue={video.rating} />}
+    {video.heroes &&
+      video.heroes.length &&
+      video.heroes.map((h) => (
+        <Tooltip title={h.name}>
+          <Avatar src={h.img} shape='circle' />
+        </Tooltip>
+      ))}
   </Card>
 )
 
