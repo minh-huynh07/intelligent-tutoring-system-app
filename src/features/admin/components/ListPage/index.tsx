@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Typography, Tooltip, Avatar } from 'antd'
+import { Card, Row, Col, Typography } from 'antd'
 import './styles.scss'
 import { Course } from '@/types'
 

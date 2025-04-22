@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Typography, Spin } from 'antd'
 import './styles.scss'
-import { Course, CourseList, CourseType } from '@/types'
+import { Course, CourseList } from '@/types'
 import InstructorListPage from '@/features/admin/components/ListPage'
 import CourseService from '@/services/CourseService'
 import { useUser } from '@/contexts/UserContext'
