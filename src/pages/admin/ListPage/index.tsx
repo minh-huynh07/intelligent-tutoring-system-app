@@ -1,39 +1,61 @@
 import React, { useState, useEffect } from 'react'
-import { Typography } from 'antd'
+import { Typography, Spin } from 'antd'
 import './styles.scss'
-import { Course, CourseType } from '@/types'
+import { Course, CourseList, CourseType } from '@/types'
 import InstructorListPage from '@/features/admin/components/ListPage'
+import CourseService from '@/services/CourseService'
+import { useUser } from '@/contexts/UserContext'
+import { getRandomLocalThumbnail } from '@/utils/randomThumbnails'
 
 const { Title } = Typography
 
-const mockCourses: Course[] = [
-  {
-    id: 'c1',
-    title: 'Building Advanced Dota Strategies',
-    thumbnail: '/thumbnails/dota-strategies.jpg',
-    description: 'Deep dive into hero combinations and itemization.',
-    rating: 4.8,
-    type: CourseType.ORDINARY,
-    heroes: []
-  },
-  {
-    id: 'c2',
-    title: 'Mastering Last-Hitting',
-    thumbnail: '/thumbnails/last-hitting.jpg',
-    description: 'Improve your CS in every phase of the game.',
-    rating: 4.6,
-    type: CourseType.ORDINARY,
-    heroes: []
-  }
-]
-
 const InstructorHomePage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const { user } = useUser()
+  const userId = user?.id || '6379aaf9-2c94-4432-927f-5aca48e1c746'
 
   useEffect(() => {
-    // replace with real API call
-    setCourses(mockCourses)
+    const fetchCourses = async () => {
+      try {
+        // Pass any required request data (e.g., filters or user info) as needed
+        const response: CourseList = await CourseService.getCourses(userId)
+
+        // Assuming the response contains an array of courses, adjust mapping if needed
+        const courses: Course[] = response.results.map((course) => ({
+          id: course.id,
+          title: course.title,
+          thumbnail: course.thumbnail || getRandomLocalThumbnail(),
+          // instructor: course.user_id || 'N/A',
+          description: course.description || 'No description available.',
+          heroes: course.heroes,
+          type: course.type
+        }))
+
+        setCourses(courses)
+      } catch (err) {
+        setError('Failed to load courses')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCourses()
   }, [])
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <Spin size='large' tip='Fetching recommended courses...' />
+      </div>
+    )
+  }
+
+  if (error) {
+    return <div>{error}</div>
+  }
 
   return (
     <div className='instructor-home-page'>

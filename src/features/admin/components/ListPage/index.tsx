@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Typography, Rate } from 'antd'
+import { Card, Row, Col, Typography, Tooltip, Avatar } from 'antd'
 import './styles.scss'
 import { Course } from '@/types'
 
@@ -27,7 +27,18 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => (
         {course.description}
       </Paragraph>
     )}
-    {typeof course.rating === 'number' && <Rate disabled allowHalf defaultValue={course.rating} />}
+     {course.type && (
+      <Paragraph style={{ margin: '0.5rem 0' }} ellipsis={{ rows: 2 }}>
+        Mode: {course.type}
+      </Paragraph>
+    )}
+     {/* {course.heroes &&
+      course.heroes.length &&
+      course.heroes.map((h) => (
+        <Tooltip title={h.name}>
+          <Avatar src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/heroes/${h.name.toLocaleLowerCase()}_full.png`} shape='circle' />
+        </Tooltip>
+      ))} */}
   </Card>
 )
 
