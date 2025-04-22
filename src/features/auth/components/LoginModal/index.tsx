@@ -9,7 +9,7 @@ import LoginModalThumbnailImg from '@/assets/login-thumbnail.jpeg'
 export default function LoginModal() {
   const handleSteamLogin = () => {
     // Redirect đến Flask backend để bắt đầu quá trình login
-    window.location.href = 'http://localhost:5000/auth/steam'
+    window.location.href = `${import.meta.env.VITE_RECOMMENDATION_API_URL}/auth/steam`
   }
 
   return (
