@@ -1,35 +1,24 @@
-import { FaStar } from 'react-icons/fa'
-import ReactPlayer from 'react-player'
-
 import './styles.scss'
+import VideoPlayer from '@/components/VideoPlayer'
+import { useLocation } from 'react-router-dom';
+import { VideoLectureMetadata } from '@/types/lectures';
 
-const courseData = {
-  title: 'Make Uber Clone App',
-  author: 'Steven Arnatouvic',
-  ratingPoint: 4.8,
-  ratingCounts: 1812,
-  videoUrl: 'https://game-lecture-processed-videos.s3.ap-southeast-1.amazonaws.com/videos/practice-lesson.mp4/manifest.mpd'
-}
 const CourseWatchPage = () => {
-  const { title, author, ratingPoint, ratingCounts, videoUrl } = courseData
+  const { state: lectureData } = useLocation() as { state: VideoLectureMetadata };
+
+  const { title, video_s3_key } = lectureData
+  const videoUrl = `https://game-lecture-processed-videos.s3.ap-southeast-1.amazonaws.com/${video_s3_key}/manifest.mpd`
   return (
     <div className='course-watch-page'>
       <div className='course-info'>
         <div className='course-info__title'>{title}</div>
         <div className='course-info__sub-info'>
-          <div className='course-info__author'>{author}</div>
-          <div className='course-info__rating'>
-            <div className='course-info__rating-points'>
-              <FaStar color='gold' size={16} />
-              <span>{ratingPoint}</span>
-            </div>
-            <div className='course-info__rating-counts'>({ratingCounts} ratings)</div>
-          </div>
         </div>
       </div>
 
       <div className='course-video'>
-        <ReactPlayer url={videoUrl} width='100%' height='100%' controls />
+        <VideoPlayer mpdUrl={videoUrl} />
+        {/* <ReactPlayer url={videoUrl} width='100%' height='100%' controls /> */}
       </div>
     </div>
   )

@@ -15,7 +15,9 @@ class AuthService extends HttpService {
   }
 
   login(data: LoginRequestSchema): Promise<LoginResponseSchema> {
-    return this.post(`${this.endpoint}/login`, data)
+    return this.post(`${this.endpoint}/login`, data, {
+      withCredentials: false
+    })
   }
 }
 

@@ -17,13 +17,6 @@ export type CourseLecture = {
   durationSec: number
 }
 
-export interface Lecture {
-  id: string
-  title: string
-  duration: number // in seconds
-  // …other fields
-}
-
 export interface UserProfile {
   account_id: number
   personaname: string

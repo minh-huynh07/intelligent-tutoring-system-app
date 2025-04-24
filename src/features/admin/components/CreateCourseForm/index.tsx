@@ -5,10 +5,12 @@ import CourseService from '@/services/CourseService'
 import './styles.scss'
 import { CourseCreatePayload, CourseType } from '@/types'
 import { toast } from 'react-toastify'
+import { useUser } from '@/contexts/UserContext'
 
 const CreateCourseForm: React.FC = () => {
   const [form] = Form.useForm<CourseCreatePayload & { heroesInput: string }>()
   const [loading, setLoading] = useState(false)
+  const { user } = useUser();
 
   const handleFinish = async (values: CourseCreatePayload & { heroesInput: string }) => {
     setLoading(true)
@@ -50,6 +52,9 @@ const CreateCourseForm: React.FC = () => {
         style={{ maxWidth: 600 }}
         onFinish={handleFinish}
         autoComplete='off'
+        initialValues={{
+          user_id: user?.id
+        }}
       >
         <Form.Item
           label='Instructor ID'

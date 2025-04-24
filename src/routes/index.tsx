@@ -22,6 +22,7 @@ import {
   CourseWatchPage,
   LoginSuccessPage
 } from '@/pages'
+import InstructorLectureHomePage from '@/pages/admin/ListLecturePage'
 
 export default function AppRouter() {
   return (
@@ -54,7 +55,7 @@ export default function AppRouter() {
           />
 
           <Route
-            path='courses/watch'
+            path='lectures/watch'
             element={
               <UserRoute>
                 <CourseWatchPage />
@@ -75,7 +76,7 @@ export default function AppRouter() {
                 <Route path='new' element={<AdminCoursePage />} /> {/* /admin/courses/new */}
               </Route>
               <Route path='lectures'>
-                <Route index element={<AdminLecturePage />} /> {/* /admin/lectures */}
+                <Route index element={<InstructorLectureHomePage />} /> {/* /admin/lectures */}
                 <Route path='new' element={<AdminLecturePage />} /> {/* /admin/lectures/new */}
               </Route>
             </Route>

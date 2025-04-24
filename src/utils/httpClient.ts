@@ -19,6 +19,8 @@ export class HttpService {
       headers: { 'Content-Type': 'application/json' }
     })
 
+    // this.api.defaults.withCredentials = true
+
     // Attach auth token on each request if present
     this.api.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
