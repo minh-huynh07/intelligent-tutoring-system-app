@@ -1,0 +1,66 @@
+.course-watch-page {
+  padding: 18px 8px;
+  padding-top: 18px;
+
+  .course-info {
+    margin-bottom: 32px;
+
+    .course-info__title {
+      font-weight: bold;
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    .course-info__author {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0%;
+
+      color: #C5322A;
+    }
+
+    .course-info__rating {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .course-info__rating-points {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .course-info__rating-counts {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: 0%;
+
+      color: #A9A9A9;
+    }
+
+    .course-info__sub-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+    }
+
+  }
+
+  .course-video {
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 16/9;
+    // border-radius: 20px;
+    // overflow: hidden;
+    margin: 0 auto;
+  }
+
+
+
+}

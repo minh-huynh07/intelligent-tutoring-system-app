@@ -1,0 +1,94 @@
+// src/components/styles.scss
+.admin-modal {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid #c41d7f; /* accent magenta */
+
+  .admin-modal__thumbnail {
+    flex: 1;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .admin-modal__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+
+    .content__logo {
+      height: 72px;
+      width: 100%;
+      margin-bottom: 16px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+    }
+
+    .auth-title {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #c41d7f;
+      text-align: center;
+    }
+    .auth-subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      color: #666;
+    }
+
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .ant-btn {
+      height: 48px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      &.ant-btn-primary {
+        background-color: #c41d7f;
+        border-color: #c41d7f;
+        color: #fff;
+
+        &:hover,
+        &:focus {
+          background-color: #a31a6d;
+          border-color: #a31a6d;
+        }
+      }
+    }
+
+    .switch-mode {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+
+      a {
+        color: #1890ff;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

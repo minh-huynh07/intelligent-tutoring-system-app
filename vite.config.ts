@@ -6,8 +6,22 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8002',
+        changeOrigin: true,
+        secure: false,
+        // Rewrite cookie domain so cookies set by backend
+        // are scoped to localhost:3000
+        cookieDomainRewrite: {
+          '*': ''
+        }
+      }
+    }
   },
+  envDir: path.resolve(__dirname, 'config'),
+  envPrefix: 'VITE_',
   css: {
     devSourcemap: true
   },
@@ -17,4 +31,3 @@ export default defineConfig({
     }
   }
 })
-

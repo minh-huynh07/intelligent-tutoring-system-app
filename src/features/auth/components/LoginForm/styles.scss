@@ -1,0 +1,29 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .register-form__input {
+    border-color: #FAFAFA;
+    background-color: #FAFAFA;
+
+    &:hover {
+      border-color: #EEEEEE;
+    }
+  }
+
+  .register-form__form-item {
+    margin-bottom: 0;
+  }
+
+  .register-form__submit-btn {
+    padding: 20px 0;
+    width: 100%;
+    font-weight: 700;
+    font-size: 16px;
+    color: #FFFFFF;
+
+    border-radius: 12px;
+    background-color: #3dcbb1;
+  }
+}

@@ -1,0 +1,53 @@
+.login-modal {
+  display: flex;
+  flex-direction: row;
+
+
+  .login-modal__thumbnail { }
+
+  .login-modal__login-section {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+  }
+
+  .login-section__logo {
+    height: 72px;
+    width: 100%
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;  /* preserves aspect ratio and letterboxes if needed */
+      display: block;   
+    }
+  }
+
+  .login-section__steam-login-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    gap: 8px;
+    height: 48px;
+
+    &:hover,
+    &:focus {
+      border-color: #000;
+    }
+  }
+
+
+  .login-section__description {}
+
+  .login-section__login-seperator {
+    text-align: center;
+  }
+
+  .login-section__already-have-account {
+    text-align: center;
+  }
+}
